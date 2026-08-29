@@ -1,0 +1,14 @@
+# Use a lightweight official OpenJDK runtime
+FROM eclipse-temurin:21-jre-alpine
+
+# Set the working directory inside the container
+WORKDIR /transit360-0.0.1
+
+# Copy the pre-built JAR file into the container
+COPY *.jar transit360-0.0.1.jar
+
+# Render exposes and passes the $PORT variable automatically
+EXPOSE 8080
+
+# Run the JAR with port mapping and memory optimization for free tiers
+ENTRYPOINT ["sh", "-c", "java -XX:MaxRAMPercentage=75.0 -Dserver.port=${PORT:-8080} -jar transit360-0.0.1.jar"]
